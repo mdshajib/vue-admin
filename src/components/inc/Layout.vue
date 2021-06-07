@@ -17,24 +17,30 @@
             </v-list-item>
             <v-divider></v-divider>
 
-            <v-list>
-                <v-list-item
-                v-for="item in items"
-                :key="item.title"
-                link
-                >
-                    <v-list-item-icon>
-                        <v-icon>{{ item.icon }}</v-icon>
-                    </v-list-item-icon>
+            <v-list rounded>
+                <v-list-item-group
+                    v-model="selectedItem"
+                    color="primary"
+                    >
+                    <v-list-item
+                    v-for="item in items"
+                    :key="item.title"
+                    :to="item.link"
+                    link
+                    >
+                        <v-list-item-icon>
+                            <v-icon>{{ item.icon }}</v-icon>
+                        </v-list-item-icon>
 
-                    <v-list-item-content>
-                        <v-list-item-title>{{ item.title }}</v-list-item-title>
-                    </v-list-item-content>
-                </v-list-item>
+                        <v-list-item-content>
+                            <v-list-item-title>{{ item.title }}</v-list-item-title>
+                        </v-list-item-content>
+                    </v-list-item>
+                </v-list-item-group>
             </v-list>
             <template v-slot:append>
                 <div class="">
-                <v-btn block>
+                <v-btn block @click="handleLogout">
                     Logout
                 </v-btn>
                 </div>
@@ -45,7 +51,7 @@
         <v-app-bar
             dark
             app
-            style="height: 62px;background:#e00c9fd9">
+            style="height: 62px;background:rgb(236 19 130 / 85%)">
             <v-app-bar-nav-icon @click="drawer = !drawer"></v-app-bar-nav-icon>
 
             <v-toolbar-title></v-toolbar-title>
@@ -58,7 +64,10 @@
         </v-app-bar>
 
         <v-main>
-            <!--  -->
+            <v-container fluid>
+            <!-- If using vue-router -->
+            <router-view></router-view>
+            </v-container>
         </v-main>
     </v-app>
 </template>
@@ -71,12 +80,18 @@ export default {
     data () {
       return {
         items: [
-          { title: 'Dashboard', icon: 'mdi-view-dashboard' },
-          { title: 'Account', icon: 'mdi-account-box' },
-          { title: 'Admin', icon: 'mdi-gavel' },
+          { title: 'Dashboard', icon: 'mdi-view-dashboard', link:'/dashboard'},
+          { title: 'Account', icon: 'mdi-account-box', link:'/dashboard' },
+          { title: 'Home', icon: 'mdi-gavel', link:'/home' },
         ],
         drawer: null,
+        selectedItem: 0,
       }
+    },
+    methods: {
+        handleLogout(){
+            console.log('logout clicked')
+        }
     }
     // components: {Header, Sidebar},
 }
